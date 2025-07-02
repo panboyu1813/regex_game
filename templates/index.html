@@ -12,10 +12,10 @@
 <body>
     <h2>Regex 關卡 Judge</h2>
     <form method="post">
-        <label>選擇關卡（1~4）</label>
+        <label>選擇關卡（1~7）</label>
         <select name="level" required>
             <option value="">請選擇</option>
-            {% for i in range(1, 5) %}
+            {% for i in range(1, 8) %}
             <option value="{{ i }}">{{ i }}</option>
             {% endfor %}
         </select>
@@ -32,7 +32,7 @@
         {% elif result.success %}
             <p class="success">✅ 關卡 {{ result.level }} 通過！</p>
             {% if result.keyword %}
-                <p>🎁 <strong>Keyword:</strong> <code>{{ result.keyword }}</code></p>
+                <p>🎁 <strong>一點關於flag的線索:</strong> <code>{{ result.keyword }}</code></p>
             {% endif %}
         {% endif %}
     {% endif %}
