@@ -1,33 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Regex Judge</title>
+    <title>Regex Judge 關卡系統</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        input[type="text"] { width: 60%; padding: 8px; }
-        input[type="submit"] { padding: 8px 16px; }
-        .result { margin-top: 20px; }
-        .fail { color: red; }
-        .pass { color: green; }
+        body { font-family: Arial; padding: 20px; }
+        input, select { padding: 8px; margin: 8px 0; width: 100%; }
+        .error { color: red; }
+        .success { color: green; }
     </style>
 </head>
 <body>
-    <h1>Regex Judge 系統</h1>
+    <h2>Regex 關卡 Judge</h2>
     <form method="post">
-        <label>輸入正則表達式：</label><br>
+        <label>選擇關卡（1~4）</label>
+        <select name="level" required>
+            <option value="">請選擇</option>
+            {% for i in range(1, 5) %}
+            <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select>
+
+        <label>輸入正則表達式</label>
         <input type="text" name="regex" required />
+
         <input type="submit" value="Judge">
     </form>
 
     {% if result %}
-        <div class="result">
-            {% if result.error %}
-                <p class="fail"><strong>錯誤：</strong> {{ result.error }}</p>
-            {% else %}
-                <p><strong>✅ Accept 通過：</strong> {{ result.passed_accept }} / {{ result.total_accept }}</p>
-                <p><strong>❌ Reject 被誤接受：</strong> {{ result.passed_reject }} / {{ result.total_reject }}</p>
+        {% if result.error %}
+            <p class="error">{{ result.error }}</p>
+        {% elif result.success %}
+            <p class="success">✅ 關卡 {{ result.level }} 通過！</p>
+            {% if result.keyword %}
+                <p>🎁 <strong>Keyword:</strong> <code>{{ result.keyword }}</code></p>
             {% endif %}
-        </div>
+        {% endif %}
     {% endif %}
 </body>
 </html>
