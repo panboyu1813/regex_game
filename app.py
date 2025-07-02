@@ -70,3 +70,14 @@ def index():
         }
 
     return render_template('index.html', result=result)
+@app.route('/describe/<int:level>')
+def describe(level):
+    if 1 <= level <= 7:
+        path = f'describe/{level}.txt'
+        if os.path.exists(path):
+            with open(path, encoding='utf-8') as f:
+                return jsonify({'text': f.read()})
+        else:
+            return jsonify({'text': '(尚未提供描述)'})
+    return jsonify({'text': '❌ 關卡編號錯誤'})
+
