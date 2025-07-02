@@ -13,8 +13,8 @@ def index():
         regex = request.form.get('regex')
 
         # 驗證關卡
-        if not level or not level.isdigit() or not (1 <= int(level) <= 4):
-            result = {'error': '關卡請輸入 1 到 4！'}
+        if not level or not level.isdigit() or not (1 <= int(level) <= 7):
+            result = {'error': '關卡請輸入 1 到 7！'}
             return render_template('index.html', result=result)
 
         level = int(level)
@@ -48,8 +48,10 @@ def index():
                 })
 
         keyword = None
-        if level >= 2:
+        if level == 2:
             keyword = base64.b64decode("aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUTR3NHc5V2djUQ==").decode()
+        if level == 3:
+            keyword = base64.b64decode("aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUTR3NHc5V2djUQ==").decode()            
 
         result = {
             'success': True,
