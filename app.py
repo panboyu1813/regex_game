@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request
-import re
+from flask import Flask, request, render_template
 import os
+import re
+import base64
 
 app = Flask(__name__)
 
@@ -8,34 +9,52 @@ app = Flask(__name__)
 def index():
     result = None
     if request.method == 'POST':
-        regex = request.form['regex']
+        level = request.form.get('level')
+        regex = request.form.get('regex')
+
+        # 驗證關卡
+        if not level or not level.isdigit() or not (1 <= int(level) <= 4):
+            result = {'error': '關卡請輸入 1 到 4！'}
+            return render_template('index.html', result=result)
+
+        level = int(level)
+        accept_path = f'testcase/{level}.accept'
+        reject_path = f'testcase/{level}.reject'
+
         try:
-            pattern = re.compile(regex)
+            pattern = re.compile(f"^{regex}$")
         except re.error as e:
             result = {'error': f'無效的正則表達式：{e}'}
             return render_template('index.html', result=result)
 
-        def load_lines(filename):
-            path = os.path.join('testcase', filename)
-            with open(path, 'r', encoding='utf-8') as f:
-                return [line.strip() for line in f.readlines()]
+        # 讀測資
+        def load_lines(path):
+            with open(path, encoding='utf-8') as f:
+                return [line.strip() for line in f if line.strip()]
 
-        accept_cases = load_lines('accept1.txt')
-        reject_cases = load_lines('reject1.txt')
+        accept_lines = load_lines(accept_path)
+        reject_lines = load_lines(reject_path)
 
-        passed_accept = sum(1 for s in accept_cases if pattern.fullmatch(s))
-        failed_accept = len(accept_cases) - passed_accept
+        for line in accept_lines:
+            if not pattern.fullmatch(line):
+                return render_template('index.html', result={
+                    'error': f'❌ Failed accept testcase（該匹配卻沒匹配到）: {line}'
+                })
 
-        passed_reject = sum(1 for s in reject_cases if pattern.fullmatch(s))
-        correct_reject = len(reject_cases) - passed_reject
+        for line in reject_lines:
+            if pattern.fullmatch(line):
+                return render_template('index.html', result={
+                    'error': f'❌ Failed reject testcase（不該匹配卻匹配到）: {line}'
+                })
+
+        keyword = None
+        if level >= 2:
+            keyword = base64.b64decode("aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUTR3NHc5V2djUQ==").decode()
 
         result = {
-            'passed_accept': passed_accept,
-            'total_accept': len(accept_cases),
-            'failed_accept': failed_accept,
-            'passed_reject': passed_reject,
-            'total_reject': len(reject_cases),
-            'correct_reject': correct_reject
+            'success': True,
+            'level': level,
+            'keyword': keyword
         }
 
     return render_template('index.html', result=result)
