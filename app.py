@@ -12,7 +12,7 @@ def index():
         try:
             pattern = re.compile(regex)
         except re.error as e:
-            result = { 'error': f'無效的正則表達式：{e}' }
+            result = {'error': f'無效的正則表達式：{e}'}
             return render_template('index.html', result=result)
 
         def load_lines(filename):
