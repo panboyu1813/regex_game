@@ -148,12 +148,16 @@
                 return;
             }
     
-            const res = await fetch(`/describe/${level}`);
-            const data = await res.json();
-            descText.textContent = data.text;
-            descBox.style.display = 'block';
+            try {
+                const res = await fetch(`/describe/${level}`);
+                const data = await res.json();
+                descText.textContent = data.text;
+                descBox.style.display = 'block';
+            } catch (err) {
+                descText.textContent = '⚠️ 無法載入題目描述';
+                descBox.style.display = 'block';
+            }
         });
     </script>
-
 </body>
 </html>
