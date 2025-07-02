@@ -1,0 +1,11 @@
+第三關的目標是辨識出合法的email地址
+一個合法的email由@符號分隔成兩個部分
+@前面由大小寫英文、數字、點、底線組成
+@後面由2到4組標籤組成域名，中間用一個點分隔
+而一個標籤由大小寫英文、數字、底線組成
+
+比方說
+contact@sitcon.org 是合法的email地址，sitcon和org是兩個標籤
+jlhuang@cs.nycu.edu.tw 也是合法的email地址
+而
+s!tcon@gmail.com 不是合法的email地址，因為@前面不允許!字元
