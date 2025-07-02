@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 import os
 import re
 import base64
@@ -80,4 +80,3 @@ def describe(level):
         else:
             return jsonify({'text': '(尚未提供描述)'})
     return jsonify({'text': '❌ 關卡編號錯誤'})
-
