@@ -49,9 +49,17 @@ def index():
 
         keyword = None
         if level == 2:
-            keyword = base64.b64decode("aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUTR3NHc5V2djUQ==").decode()
-        if level == 3:
-            keyword = base64.b64decode("aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUTR3NHc5V2djUQ==").decode()            
+            keyword = base64.b64decode("RkxBR3s2UjM0Nyxf").decode()
+        elif level == 3:
+            keyword = base64.b64decode("RkxBR3s2UjM0NyxfWTBVX0g0VjNf").decode()   
+        elif level == 4:
+            keyword = base64.b64decode("RkxBR3s2UjM0NyxfWTBVX0g0VjNfMTM0Uk4zRF9IMFdfNzBf").decode()   
+        elif level == 5:
+            keyword = base64.b64decode("RkxBR3s2UjM0NyxfWTBVX0g0VjNfMTM0Uk4zRF9IMFdfNzBfVTUzX1IzNjNYO18=").decode()   
+        elif level == 6:
+            keyword = base64.b64decode("RkxBR3s2UjM0NyxfWTBVX0g0VjNfMTM0Uk4zRF9IMFdfNzBfVTUzX1IzNjNYO19XM0xDME0zXzcwXw==").decode()   
+        elif level == 7:
+            keyword = base64.b64decode("RkxBR3s2UjM0NyxfWTBVX0g0VjNfMTM0Uk4zRF9IMFdfNzBfVTUzX1IzNjNYO19XM0xDME0zXzcwXzUxN0MwTl9DNE1QLn0=").decode()   
 
         result = {
             'success': True,
