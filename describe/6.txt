@@ -1,0 +1,10 @@
+第六關的目標是辨識出有學生身分的的email地址
+一個學校提供給學生的email通常由edu.tw結尾
+edu.tw前面通常由部別、校名縮寫、縣市縮寫組成
+而@前面由大小寫英文、數字、點、底線組成(通常會是學號)
+
+
+比方說
+contact@sitcon.org 就不是有教育資格的email地址
+而
+jlhuang@cs.nycu.edu.tw 、 s111123@nehs.hc.edu.tw 、 1171055@stu.sggs.hc.edu.tw 是有教育資格的email地址
