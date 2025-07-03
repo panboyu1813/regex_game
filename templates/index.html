@@ -2,162 +2,75 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>Regex 關卡 Judge</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Regex Judge</title>
     <style>
-        body {
-            background: #f7f9fc;
-            font-family: 'Segoe UI', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
+        body { font-family: Arial; padding: 30px; background: #f5f5f5; }
+        .card { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        select, input[type="text"], input[type="submit"] {
+            width: 100%; padding: 10px; margin: 10px 0; font-size: 16px;
         }
-
-        .card {
-            background: white;
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 480px;
-        }
-
-        h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        label {
-            font-weight: bold;
-            margin-top: 10px;
-            display: block;
-            color: #444;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0 20px 0;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-
-        input[type="submit"] {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        input[type="submit"]:hover {
-            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-        }
-
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 16px;
-            line-height: 1.5;
-        }
-
-        .success {
-            background: #e6fff1;
-            border: 1px solid #28a745;
-            color: #28a745;
-        }
-
-        .error {
-            background: #ffe8e8;
-            border: 1px solid #dc3545;
-            color: #dc3545;
-        }
-
-        code {
-            background: #f2f2f2;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-family: monospace;
-        }
-
-        .keyword {
-            background: #fffbe6;
-            border: 1px solid #ffd633;
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 10px;
-            color: #b38f00;
-        }
+        .result { margin-top: 20px; padding: 15px; border-radius: 8px; }
+        .error { background: #ffe8e8; color: #a00; }
+        .success { background: #e6fff1; color: #0a0; }
+        #description-box { background: #f0f0f0; padding: 15px; border-radius: 8px; margin-top: 10px; display: none; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2>🧠 Regex Judge 關卡系統</h2>
-        <div id="description-box" style="background:#f4f4f4; padding:15px; border-radius:8px; margin-bottom:20px; display:none;">
+<div class="card">
+    <h2>🧠 Regex 關卡系統</h2>
+    <form method="post">
+        <label>選擇關卡：</label>
+        <select name="level" id="level" required>
+            {% for i in range(1, 8) %}
+            <option value="{{ i }}" {% if i == selected_level %}selected{% endif %} {% if i > unlocked_level %}disabled{% endif %}>
+                關卡 {{ i }}{% if i > unlocked_level %}（尚未解鎖）{% endif %}
+            </option>
+            {% endfor %}
+        </select>
+
+        <div id="description-box">
             <strong>📘 題目說明：</strong>
-            <pre id="description" style="white-space:pre-wrap; margin-top:10px; font-family:inherit;"></pre>
+            <pre id="description" style="white-space: pre-wrap;"></pre>
         </div>
-        <form method="post">
-            <label for="level">選擇關卡（1~7）</label>
-            <select name="level" id="level" required>
-                <option value="">請選擇關卡</option>
-                {% for i in range(1, 8) %}
-                <option value="{{ i }}">{{ i }}</option>
-                {% endfor %}
-            </select>
 
-            <label for="regex">輸入正則表達式</label>
-            <input type="text" name="regex" id="regex" placeholder="\d{4}-\d{2}-\d{2}" required>
+        <label>輸入正則表達式：</label>
+        <input type="text" name="regex" placeholder="請輸入 regex" required>
+        <input type="submit" value="Judge">
+    </form>
 
-            <input type="submit" value="Judge">
-        </form>
-
-        {% if result %}
-            <div class="result {% if result.error %}error{% else %}success{% endif %}">
-                {% if result.error %}
-                    ❌ {{ result.error }}
-                {% elif result.success %}
-                    ✅ 關卡 {{ result.level }} 通過！
-
-                    {% if result.keyword %}
-                        <div class="keyword">
-                            🎁 <strong>一點點關於flag🚩的線索:</strong> <br>
-                            <code>{{ result.keyword }}</code>
-                        </div>
-                    {% endif %}
-                {% endif %}
-            </div>
+    {% if result %}
+    <div class="result {% if result.error %}error{% else %}success{% endif %}">
+        {% if result.error %}
+            ❌ {{ result.error }}
+        {% else %}
+            ✅ 通過第 {{ result.level }} 關！
+            {% if result.keyword %}
+            <br><br><strong>🎁 Keyword:</strong> <code>{{ result.keyword }}</code>
+            {% endif %}
         {% endif %}
     </div>
-    <script>
-        const levelSelect = document.querySelector('select[name="level"]');
-        const descBox = document.getElementById('description-box');
-        const descText = document.getElementById('description');
-    
-        levelSelect.addEventListener('change', async () => {
-            const level = levelSelect.value;
-            if (!level) {
-                descBox.style.display = 'none';
-                return;
-            }
-    
-            try {
-                const res = await fetch(`/describe/${level}`);
-                const data = await res.json();
-                descText.textContent = data.text;
-                descBox.style.display = 'block';
-            } catch (err) {
-                descText.textContent = '⚠️ 無法載入題目描述';
-                descBox.style.display = 'block';
-            }
-        });
-    </script>
+    {% endif %}
+    <p style="text-align:center; margin-top:20px;"><a href="/reset">🔁 重新開始</a></p>
+</div>
+
+<script>
+    const levelSelect = document.querySelector('select[name="level"]');
+    const descBox = document.getElementById('description-box');
+    const descText = document.getElementById('description');
+
+    async function loadDescription(level) {
+        const res = await fetch(`/describe/${level}`);
+        const data = await res.json();
+        descText.textContent = data.text;
+        descBox.style.display = 'block';
+    }
+
+    levelSelect.addEventListener('change', () => {
+        loadDescription(levelSelect.value);
+    });
+
+    // 自動載入預設關卡說明
+    loadDescription(levelSelect.value);
+</script>
 </body>
 </html>
