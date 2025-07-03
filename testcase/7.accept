@@ -1,107 +1,102 @@
-'^:UB\J8[a'
-'+q\J:cw^i'
-'
-"\'9hX	W\K'"
-"T']wY-]"
-'Nqx[(SR?'
-"T\p"
-'V\Ml$HG\f_'
-".B"
-"'\z
-B4/ACi\h\L'"
-'V'
-'C\vD&E\IX'
-"'R\RF\AM	L:I'"
-"2\P^,b8H\Qf"
-'yd\c$bj'
-"\D\kF:2"
-'3\d'
-'\i`'
-"/\Dn/Tb"
-'0\J\N{'
-'7'
-"\UW,\Kusc&"
-'`sq^<\zR2o\X'
-'c;fA%\N.\Q\r\w'
-'M\Z4iuv'
-""")
-"""
-"k5Q`\Hz\T"
-'%\r\LC'
+"hello"
+'world'
 ""
-"P}"
-'(.\yClN'
-"""%/\my
-r1>A"""
-"'c\M\u\hf
-'"
-"\DA1\dp*#"
-"]Z,yM\V"
-'`mn'
-"Q[MVc"
-'Escape characters like \' and \\ are tricky.'
 ''
-"Hello, world!"
-'q'
-'7z'
-'1?>V`tVU;'
-'\gc'
-"$>"
-"$"
-'\nZ'
-"Using \" to escape quotes works too."
-"""\N@\l\lC
-G"""
-"m\vs2Ip*"
-"\wQ{6xp'"
-"5\R"
-"Do you know where the library is?"
-'KvTm'
-'E(<>\ae&Ovv'
-"""f-
-Rxf-ofK"""
-'\g{[|FJ\B\nz\u'
-'l6\P0bz'
-"'\h-ufj"
-'@~)uI&)N1j'
-'\n\GQ\F\'#\cj\o'
-'(\'/V&U;vWS'
-"3XP"
-"Y9Wo\BuK"
-"|J\Cs}"
-'r\j^8Qnqiw'
-'sM\e\Q+Z'
-'iV4Uxvd$D'
-'x~l4\k'
-'This is a test sentence.'
-"\A\x"
-'@,woO\X'
-'G>4[G\I"\NA'
-'v!0\AI*\l\LT'
-'>bW)9&'
-'\xz'
-'JWz+5&\pg!'
-'OJIw\qWD'
-'}\Fz)jD'
-'~Q\V\Y<[=yq'
-'Kab,qz\y\rI'
-"\H\O0V"
-'tCJo\n\f-S-#'
-'y$\f.D'
-"GK1\ou>qm[%"
-"D\i0Y"
-'.YCq]\Ep'
-'\m\\#}d\X\y_'
-'\y}V@Z/-:2'
-'j>t'
-'f'
-"He said, 'I'll be there soon.'"
-"|Q8Ds\O"
-"[\y"
-"93\UQ$"
-"S taeSz\X"
-'16\u\Nx*\u'
-'imG$>63'
-"VfE]"
-'<h\z6\M'
-"|R!~"
+"123"
+'456'
+"abc def"
+'a b c'
+"!"
+'#'
+"\"quoted\""
+'\'quoted\''
+"line\nbreak"
+'escape\\'
+"quote\"inside"
+'quote\'inside'
+"multi\\\"escape"
+'special@#$%^&*()'
+"中文"
+'測試'
+"line1\nline2"
+'new\nline'
+"\t"
+'\t'
+"\\"
+'\\'
+"\\/\\/\\"
+'\\'  # just a backslash
+"with space"
+' and space '
+"emoji😀"
+'emoji😎'
+"😆😆😆"
+'🔥'
+"long string with many characters inside including symbols like %^&* and numbers 123456"
+'a'*50 => 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+"new\\nline"
+'\\n'
+"escaped\\\"quote"
+'escaped\\\'quote'
+"\"nested quotes\""
+'\'nested quotes\''
+"mix \\\" and \\n"
+'some\\\'mix'
+"\\u1234"
+'\\uFFFF'
+"\\x41"
+'\\x42'
+"back\\slash"
+'for\\slash'
+"\\\\"
+'\\\\'
+"one\\\"two\\\"three"
+'1\\\'2\\\'3'
+"😊 \\\"smile\\\""
+'😁 \\\'grin\\\''
+"nested \\\"quotes\\\" here"
+'用中文\\\'測試\\\'一下'
+"test\\n\\t\\\""
+'sample\\r\\b\\\''
+"escaped\\\\"
+'more\\\\'
+"Hello, \\\"world\\\"!"
+'Hi, \\\'there\\\'!'
+"combination\\n of all \\t things \\\"here\\\""
+'還有更多\\n內容'
+"🔥🔥🔥 \\\"hot\\\""
+'🎉\\\'party\\\''
+"quote \\\" \\\" \\\""
+'quote \\\' \\\' \\\''
+"just\\ a\\ test"
+'another\\ one'
+"slash\\/slash"
+'slash\\/slash'
+"double\\\\backslash"
+'double\\\\backslash'
+"quote at end\\\""
+'quote at end\\\''
+"tab\\tend"
+'tab\\tend'
+"escaped space\\ "
+'\\ space'
+"mix 中文 and English"
+'123測試abc'
+"weird\\combo\\\"stuff"
+'another\\sample\\\'case'
+"ok"
+'yes'
+"''"
+'""'
+"'"
+'"'
+"space in the end "
+' 兩邊空白 '
+" A B C "
+'123 456 789'
+"0x1234"
+'0b1010'
+"multiline\ninput"
+'line1\nline2'
+"slash\\and\\quote\\\""
+'slash\\and\\quote\\\''
