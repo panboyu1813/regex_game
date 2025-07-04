@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>Regex Judge</title>
+    <title>SITCON CAMP 2025 闖關活動 Regex</title>
     <style>
         body {
             background: #f7f9fc;
@@ -109,11 +109,11 @@
 </head>
 <body>
 <div class="card">
-    <h2>🧠 Regex 關卡系統</h2>
+    <h2>SITCON CAMP 2025 闖關活動 Regex</h2>
     <form method="post">
         <label>選擇關卡：</label>
         <select name="level" id="level" required>
-            {% for i in range(1, 8) %}
+            {% for i in range(1, 13) %}
             <option value="{{ i }}" {% if i == selected_level %}selected{% endif %} {% if i > unlocked_level %}disabled{% endif %}>
                 關卡 {{ i }}{% if i > unlocked_level %}（尚未解鎖）{% endif %}
             </option>
