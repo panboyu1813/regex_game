@@ -48,14 +48,12 @@ def index():
                     'error': f'❌ Failed reject testcase（不該匹配卻匹配到）: {line}'
                 }, unlocked_level=unlocked_level, selected_level=level)
 
-        if level == unlocked_level and level < 7:
+        if level == unlocked_level and level < 12:
             session['unlocked_level'] += 1
             unlocked_level = session['unlocked_level']
 
         keyword = None
-        if level >= 2:
-            keyword = base64.b64decode("aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUTR3NHc5V2djUQ==").decode()
-
+        
         result = {
             'success': True,
             'level': level,
@@ -67,7 +65,7 @@ def index():
 
 @app.route('/describe/<int:level>')
 def describe(level):
-    if 1 <= level <= 7:
+    if 1 <= level <= 12:
         path = f'describe/{level}.txt'
         if os.path.exists(path):
             with open(path, encoding='utf-8') as f:
