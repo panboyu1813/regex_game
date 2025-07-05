@@ -1,0 +1,11 @@
+第九關是貓狗大戰
+愛貓人士跟愛狗人士常常勢不兩立
+因此這關的目標是判斷輸入的句子中是否同時包含cat&dog
+
+I love SITCON.❌ (雖然說測資不會過但大家還是要愛SITCON喔)
+I love SITCON and cats.✅
+I love SITCON and dogs.✅
+I love dogs and cats.❌
+
+比方說 I love cats. 會被匹配
+而 I love cats, and I hate dogs. 就不會，因為 dog 、 cat 同時出現。
