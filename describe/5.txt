@@ -8,3 +8,10 @@ edu.tw前面通常由部別、校名縮寫、縣市縮寫組成
 contact@sitcon.org 就不是有教育資格的email地址
 而
 jlhuang@cs.nycu.edu.tw 、 s111123@nehs.hc.edu.tw 、 1171055@stu.sggs.hc.edu.tw 是有教育資格的email地址
+
+※為了judge方便，本次的規定與RFC5322略有差異
+(以下為RFC5322正確規定，本次judge請忽略)：
+本地部分不能以 . 開頭或結尾，不能連續 ..
+本地部分不能以 _ 開頭或結尾，不能連續 _ _亦不能._或_.
+網域部分不允_但允許- (不允許以-開頭或結尾)
+頂級網域（TLD）的長度要大於2位
