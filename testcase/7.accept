@@ -33,7 +33,7 @@
 "😆😆😆"
 '🔥'
 "long string with many characters inside including symbols like %^&* and numbers 123456"
-'a'*50 => 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 "new\\nline"
 '\\n'
 "escaped\\\"quote"
