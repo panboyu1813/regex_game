@@ -1,0 +1,6 @@
+(有沒有可能第11關只是關主單純想要整你)
+這一關的目標是要防止有人在輸入框進行sql注入
+等等，你是不是連sql是什麼
+要繼續看下去嗎?
+(如果過的話有豐厚的獎勵在等你喔)
+請先看sql injury介紹:https://www.invicti.com/blog/web-security/sql-injection-cheat-sheet/
