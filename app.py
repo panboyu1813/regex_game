@@ -24,7 +24,7 @@ def index():
             return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=level)
 
         try:
-            pattern = re.compile(f"^{regex}$")
+            pattern = re.compile(f"{regex}")
         except re.error as e:
             result = {'error': f'無效的正則表達式：{e}'}
             return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=level)
@@ -48,7 +48,7 @@ def index():
                     'error': f'❌ Failed reject testcase（不該匹配卻匹配到）: {line}'
                 }, unlocked_level=unlocked_level, selected_level=level)
 
-        if level == unlocked_level and level < 12:
+        if level == unlocked_level and level < 10:
             session['unlocked_level'] += 1
             unlocked_level = session['unlocked_level']
 
@@ -65,7 +65,7 @@ def index():
 
 @app.route('/describe/<int:level>')
 def describe(level):
-    if 1 <= level <= 12:
+    if 1 <= level <= 10:
         path = f'describe/{level}.txt'
         if os.path.exists(path):
             with open(path, encoding='utf-8') as f:
