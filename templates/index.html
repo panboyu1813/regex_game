@@ -113,7 +113,7 @@
     <form method="post">
         <label>選擇關卡：</label>
         <select name="level" id="level" required>
-            {% for i in range(1, 13) %}
+            {% for i in range(1, 11) %}
             <option value="{{ i }}" {% if i == selected_level %}selected{% endif %} {% if i > unlocked_level %}disabled{% endif %}>
                 關卡 {{ i }}{% if i > unlocked_level %}（尚未解鎖）{% endif %}
             </option>
