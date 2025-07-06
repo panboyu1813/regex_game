@@ -1,102 +1,57 @@
-"hello"
-'world'
-""
+" .u\n+vffD1\"'-w"
+'\t9f\\C<J'
+'9/[a'
 ''
-"123"
-'456'
-"abc def"
-'a b c'
-"!"
-'#'
-"\"quoted\""
-'\'quoted\''
-"line\nbreak"
-'escape\\'
-"quote\"inside"
-'quote\'inside'
-"multi\\\"escape"
-'special@#$%^&*()'
-"中文"
-'測試'
-"line1\nline2"
-'new\nline'
-"\t"
+'\\=\\AD\\jmExx'
+"""'\n6&.B,
+\t3+x_B"""
+'a\n\t'
+"\"WVM\"V\"B\\{8Y\""
+''
+"Ce2Fl\""
+'\'+/B*\t\n\'#)~va'
 '\t'
-"\\"
-'\\'
-"\\/\\/\\"
-'\\'
-"with space"
-' and space '
-"emoji😀"
-'emoji😎'
-"😆😆😆"
-'🔥'
-"long string with many characters inside including symbols like %^&* and numbers 123456"
-'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-"new\\nline"
-'\\n'
-"escaped\\\"quote"
-'escaped\\\'quote'
-"\"nested quotes\""
-'\'nested quotes\''
-"mix \\\" and \\n"
-'some\\\'mix'
-"\\u1234"
-'\\uFFFF'
-"\\x41"
-'\\x42'
-"back\\slash"
-'for\\slash'
-"\\\\"
-'\\\\'
-"one\\\"two\\\"three"
-'1\\\'2\\\'3'
-"😊 \\\"smile\\\""
-'😁 \\\'grin\\\''
-"nested \\\"quotes\\\" here"
-'用中文\\\'測試\\\'一下'
-"test\\n\\t\\\""
-'sample\\r\\b\\\''
-"escaped\\\\"
-'more\\\\'
-"Hello, \\\"world\\\"!"
-'Hi, \\\'there\\\'!'
-"combination\\n of all \\t things \\\"here\\\""
-'還有更多\\n內容'
-"🔥🔥🔥 \\\"hot\\\""
-'🎉\\\'party\\\''
-"quote \\\" \\\" \\\""
-'quote \\\' \\\' \\\''
-"just\\ a\\ test"
-'another\\ one'
-"slash\\/slash"
-'slash\\/slash'
-"double\\\\backslash"
-'double\\\\backslash'
-"quote at end\\\""
-'quote at end\\\''
-"tab\\tend"
-'tab\\tend'
-"escaped space\\ "
-'\\ space'
-"mix 中文 and English"
-'123測試abc'
-"weird\\combo\\\"stuff"
-'another\\sample\\\'case'
-"ok"
-'yes'
-"''"
-'""'
-"'"
-'"'
-"space in the end "
-' 兩邊空白 '
-" A B C "
-'123 456 789'
-"0x1234"
-'0b1010'
-"multiline\ninput"
-'line1\nline2'
-"slash\\and\\quote\\\""
-'slash\\and\\quote\\\''
+"\n\"\"+m\\u"
+'8wb:+\t'
+"Tg;"
+"wb\n\nl+TJ\t/,"
+";CLteTzUks)iw"
+'W3:UEE'
+'EPr[=yY5lzgx'
+'\t\\HOf1u'
+'\\\n'
+"'/\n	\\\n\nVU[cPsXe7c'"
+"76'"
+'%Fou@\'\ncHn6\n_Hf'
+"'G0>xFiK&IG#Q4\\sI
+*'"
+')V\\?<4\\&/2d\''
+'\n,x'
+"[N\",BN"
+'R43*'
+"\\n\\0\\^56L(vpO"
+'0[uZ(l.*CV|mWz\twME'
+'O5/vX[SW\n*G'
+'\n\n[*\'!'
+"'B
+n@)\\'"
+'\td\''
+'p2\\CZK*3\t'
+"""
+-vm"""
+'\'uNr\\o\nf@ 6g'
+''
+'C#c[\n@/'
+"""
+k"""
+"""f
+\""!#`?xmF0\""Otu\\"""
+'!bh3\'
+\t'
+'s~'
+'1\\B\\'
+'\tT-)\n\tRE\\\''
+"'H[k]!BT0\t	\n'"
+'d\t'
+"<L%\\.\ne5\nj\"T\n"
+"\"\tbv+(~f8"
