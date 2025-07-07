@@ -12,6 +12,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            user-select: none;
         }
     
         .card {
@@ -107,6 +108,38 @@
         }
     </style>
 </head>
+    <script>
+    document.addEventListener('keydown', function (e) {
+        // 禁用 F1 ~ F12
+        if (e.key.startsWith('F') && e.key.length <= 3) {
+            e.preventDefault();
+            return false;
+        }
+    
+        // 禁用 Ctrl, Shift, Alt 單獨或組合鍵
+        if (e.ctrlKey || e.altKey || e.shiftKey) {
+            const forbiddenKeys = ['a', 'c', 'x', 'v']; // 加 v 禁用貼上
+            if (forbiddenKeys.includes(e.key.toLowerCase())) {
+                e.preventDefault();
+                return false;
+            }
+    
+            if (['Control', 'Alt', 'Shift'].includes(e.key)) {
+                e.preventDefault();
+                return false;
+            }
+        }
+    });
+    
+    // 禁用選取文字、右鍵選單
+    document.addEventListener('selectstart', e => e.preventDefault());
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    
+    // 禁用貼上
+    document.addEventListener('paste', function (e) {
+        e.preventDefault();
+    });
+    </script>
 <body>
 <div class="card">
     <h2>SITCON CAMP 2025 闖關活動 Regex</h2>
