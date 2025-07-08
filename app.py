@@ -1,27 +1,80 @@
-
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, request, render_template, jsonify, session, redirect, url_for
 import os
+import re
+import base64
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key'
+app.secret_key = 'super-secret-key'
 
 @app.route('/', methods=['GET', 'POST'])
-def choose_team():
-    if request.method == 'POST':
-        team = request.form.get('team')
-        if team and team.isdigit() and 0 <= int(team) <= 9:
-            session['team'] = int(team)
-            return redirect(url_for('index'))
-        else:
-            return render_template('choose_team.html', error="請選擇 0 到 9 的小隊")
-    return render_template('choose_team.html')
-
-@app.route('/index')
 def index():
-    team = session.get('team')
-    if team is None:
-        return redirect(url_for('choose_team'))
-    return render_template('index.html', team=team)
+    if 'unlocked_level' not in session:
+        session['unlocked_level'] = 1
 
-if __name__ == '__main__':
-    app.run(debug=True)
+    unlocked_level = session['unlocked_level']
+    result = None
+    current_level = 1
+
+    if request.method == 'POST':
+        level = int(request.form.get('level'))
+        regex = request.form.get('regex')
+
+        if not (1 <= level <= unlocked_level):
+            result = {'error': f'⚠️ 你只能挑戰第 1 到第 {unlocked_level} 關'}
+            return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=level)
+
+        try:
+            pattern = re.compile(f"{regex}")
+        except re.error as e:
+            result = {'error': f'無效的正則表達式：{e}'}
+            return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=level)
+
+        def load_lines(path):
+            with open(path, encoding='utf-8') as f:
+                return [line.strip() for line in f if line.strip()]
+
+        accept_lines = load_lines(f'testcase/{level}.accept')
+        reject_lines = load_lines(f'testcase/{level}.reject')
+
+        for line in accept_lines:
+            if not pattern.fullmatch(line):
+                return render_template('index.html', result={
+                    'error': f'❌ Failed accept testcase（該匹配卻沒匹配到）: {line}'
+                }, unlocked_level=unlocked_level, selected_level=level)
+
+        for line in reject_lines:
+            if pattern.fullmatch(line):
+                return render_template('index.html', result={
+                    'error': f'❌ Failed reject testcase（不該匹配卻匹配到）: {line}'
+                }, unlocked_level=unlocked_level, selected_level=level)
+
+        if level == unlocked_level and level < 10:
+            session['unlocked_level'] += 1
+            unlocked_level = session['unlocked_level']
+
+        keyword = None
+        
+        result = {
+            'success': True,
+            'level': level,
+            'keyword': keyword
+        }
+        current_level = level + 1 if level + 1 <= unlocked_level else level
+
+    return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=current_level)
+
+@app.route('/describe/<int:level>')
+def describe(level):
+    if 1 <= level <= 10:
+        path = f'describe/{level}.txt'
+        if os.path.exists(path):
+            with open(path, encoding='utf-8') as f:
+                return jsonify({'text': f.read()})
+        else:
+            return jsonify({'text': '(尚未提供描述)'})
+    return jsonify({'text': '❌ 關卡編號錯誤'})
+
+@app.route('/reset')
+def reset():
+    session['unlocked_level'] = 1
+    return redirect(url_for('index'))
