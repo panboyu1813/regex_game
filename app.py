@@ -64,16 +64,14 @@ def index():
 
         if not (1 <= level <= unlocked_level):
             result = {'error': f'⚠️ 你只能挑戰第 1 到第 {unlocked_level} 關'}
-            if session.get('team') == '1' and level == 1:
-                send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗')
+            send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗')
             return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=level)
 
         try:
             pattern = re.compile(f"`{regex}`")
         except re.error as e:
             result = {'error': f'無效的正則表達式：{e}'}
-            if session.get('team') == '1' and level == 1:
-                send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗')
+            send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗')
             return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=level)
 
         def load_lines(path):
@@ -88,17 +86,20 @@ def index():
                 return render_template('index.html', result={
                     'error': f'❌ Failed accept testcase（該匹配卻沒匹配到）: {line}'
                 }, unlocked_level=unlocked_level, selected_level=level)
+                send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗')
 
         for line in reject_lines:
             if pattern.fullmatch(line):
                 return render_template('index.html', result={
                     'error': f'❌ Failed reject testcase（不該匹配卻匹配到）: {line}'
                 }, unlocked_level=unlocked_level, selected_level=level)
+                send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗')
 
         if level == unlocked_level and level < 10:
+            send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 成功')
             session['unlocked_level'] += 1
             unlocked_level = session['unlocked_level']
-
+            
         keyword = None
         
         result = {
