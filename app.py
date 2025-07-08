@@ -58,14 +58,14 @@ def index():
         if not (1 <= level <= unlocked_level):
             result = {'error': f'⚠️ 你只能挑戰第 1 到第 {unlocked_level} 關'}
             send_telegram_message(f'小隊{session["team"]} - 嘗試跳關')
-            return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=level)
+            return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=level, prev_regex="")
 
         try:
             pattern = re.compile(regex.encode('utf-8').decode('unicode_escape'))
         except re.error as e:
             result = {'error': f'無效的正則表達式：{e}'}
             send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗（regex 錯誤）')
-            return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=level)
+            return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=level, prev_regex=regex)
 
         def load_lines(path):
             with open(path, encoding='utf-8') as f:
@@ -79,21 +79,20 @@ def index():
                 send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗（accept: `{line}`）')
                 return render_template('index.html', result={
                     'error': f'❌ Failed accept testcase（該匹配卻沒匹配到）: {line}'
-                }, unlocked_level=unlocked_level, selected_level=level)
+                }, unlocked_level=unlocked_level, selected_level=level, prev_regex=regex)
 
         for line in reject_lines:
             if pattern.fullmatch(line):
                 send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗（reject: `{line}`）')
                 return render_template('index.html', result={
                     'error': f'❌ Failed reject testcase（不該匹配卻匹配到）: {line}'
-                }, unlocked_level=unlocked_level, selected_level=level)
-
+                }, unlocked_level=unlocked_level, selected_level=level, prev_regex=regex)
+        if level == 10:
+            send_telegram_message(f'小隊{session["team"]} - 已完成挑戰')
         if level == unlocked_level and level < 10:
             send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 成功')
             session['unlocked_level'] += 1
             unlocked_level = session['unlocked_level']
-        if level == 10:
-            send_telegram_message(f'小隊{session["team"]} - 已完成挑戰')
 
         result = {
             'success': True,
@@ -102,7 +101,7 @@ def index():
         }
         current_level = level + 1 if level + 1 <= unlocked_level else level
 
-    return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=current_level)
+    return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=current_level, prev_regex="")
 
 @app.route('/describe/<int:level>')
 def describe(level):
