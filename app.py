@@ -32,7 +32,7 @@ def select_team():
         team = request.form.get('team')
         if team in [str(i) for i in range(1, 10)]:
             session['team'] = team
-            session['unlocked_level'] = 1
+            session['unlocked_level'] = 0
             send_telegram_message(f"第{team}小隊 - 已開始遊戲")
             return redirect(url_for('index'))
         else:
@@ -45,17 +45,17 @@ def index():
         return redirect(url_for('select_team'))
 
     if 'unlocked_level' not in session:
-        session['unlocked_level'] = 1
+        session['unlocked_level'] = 0
 
     unlocked_level = session['unlocked_level']
     result = None
-    current_level = 1
+    current_level = 0
 
     if request.method == 'POST':
         level = int(request.form.get('level'))
         regex = request.form.get('regex')
 
-        if not (1 <= level <= unlocked_level):
+        if not (0 <= level <= unlocked_level):
             result = {'error': f'⚠️ 你只能挑戰第 1 到第 {unlocked_level} 關'}
             send_telegram_message(f'小隊{session["team"]} - 嘗試跳關')
             return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=level, prev_regex="")
@@ -105,7 +105,7 @@ def index():
 
 @app.route('/describe/<int:level>')
 def describe(level):
-    if 1 <= level <= 10:
+    if 0 <= level <= 10:
         path = f'describe/{level}.txt'
         if os.path.exists(path):
             with open(path, encoding='utf-8') as f:
