@@ -6,7 +6,6 @@ import requests
 from dotenv import load_dotenv
 from datetime import timedelta
 
-app.permanent_session_lifetime = timedelta(hours=1)
 load_dotenv()
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
@@ -27,6 +26,7 @@ def send_telegram_message(message):
 
 app = Flask(__name__)
 app.secret_key = 'super-secret-key'
+app.permanent_session_lifetime = timedelta(hours=1)
 
 @app.route('/select_team', methods=['GET', 'POST'])
 def select_team():
