@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, jsonify, session, redirect, url_for
+from flask import flash
 import os
 import re
 import base64
@@ -6,8 +7,24 @@ import base64
 app = Flask(__name__)
 app.secret_key = 'super-secret-key'
 
+
+@app.route('/select_team', methods=['GET', 'POST'])
+def select_team():
+    if request.method == 'POST':
+        team = request.form.get('team')
+        if team in [str(i) for i in range(1, 10)]:
+            session['team'] = team
+            session['unlocked_level'] = 1
+            return redirect(url_for('index'))
+        else:
+            flash('請選擇有效的小隊')
+    return render_template('select_team.html')
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    if 'team' not in session:
+        return redirect(url_for('select_team'))
+
     if 'unlocked_level' not in session:
         session['unlocked_level'] = 1
 
