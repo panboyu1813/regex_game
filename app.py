@@ -67,7 +67,7 @@ def index():
             return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=level)
 
         try:
-            pattern = re.compile(f"`{regex}`")
+            pattern = re.compile(regex.encode('utf-8').decode('unicode_escape'))
         except re.error as e:
             result = {'error': f'無效的正則表達式：{e}'}
             send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗{e}')
@@ -85,14 +85,14 @@ def index():
                 return render_template('index.html', result={
                     'error': f'❌ Failed accept testcase（該匹配卻沒匹配到）: {line}'
                 }, unlocked_level=unlocked_level, selected_level=level)
-                send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗')
+                # send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗')
 
         for line in reject_lines:
             if pattern.fullmatch(line):
                 return render_template('index.html', result={
                     'error': f'❌ Failed reject testcase（不該匹配卻匹配到）: {line}'
                 }, unlocked_level=unlocked_level, selected_level=level)
-                send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗')
+                # send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗')
 
         if level == unlocked_level and level < 10:
             send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 成功')
