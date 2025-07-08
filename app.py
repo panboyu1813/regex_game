@@ -63,14 +63,14 @@ def index():
 
         if not (1 <= level <= unlocked_level):
             result = {'error': f'⚠️ 你只能挑戰第 1 到第 {unlocked_level} 關'}
-            send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗')
+            send_telegram_message(f'小隊{session["team"]} - 嘗試跳關')
             return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=level)
 
         try:
             pattern = re.compile(f"`{regex}`")
         except re.error as e:
             result = {'error': f'無效的正則表達式：{e}'}
-            send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗')
+            send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗{e}')
             return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=level)
 
         def load_lines(path):
