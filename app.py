@@ -6,7 +6,7 @@ import base64
 
 import requests
 
-TELEGRAM_BOT_TOKEN = "123456:FAKE-TOKEN-FOR-PLACEHOLDER"
+TELEGRAM_BOT_TOKEN = "8116903199:AAGk35ICAnk1fpHuBiaTNsoHzvvI7W4sc90"
 TELEGRAM_CHAT_ID = "-1002686738345"
 
 def send_telegram_message(message):
