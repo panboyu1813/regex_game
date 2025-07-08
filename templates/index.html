@@ -231,5 +231,19 @@
     // 自動載入預設關卡說明
     loadDescription(levelSelect.value);
 </script>
+
+<script>
+(function() {
+    let threshold = 160;
+    let once = false;
+    setInterval(() => {
+        if (window.outerHeight - window.innerHeight > threshold && !once) {
+            once = true;
+            fetch("/devtools_opened", { method: "POST" });
+        }
+    }, 1000);
+})();
+</script>
 </body>
+
 </html>

@@ -4,6 +4,23 @@ import os
 import re
 import base64
 
+import requests
+
+TELEGRAM_BOT_TOKEN = "123456:FAKE-TOKEN-FOR-PLACEHOLDER"
+TELEGRAM_CHAT_ID = "-1002686738345"
+
+def send_telegram_message(message):
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    data = {
+        "chat_id": TELEGRAM_CHAT_ID,
+        "text": message
+    }
+    try:
+        requests.post(url, data=data)
+    except Exception as e:
+        print(f"Telegram error: {e}")
+
+
 app = Flask(__name__)
 app.secret_key = 'super-secret-key'
 
@@ -38,12 +55,16 @@ def index():
 
         if not (1 <= level <= unlocked_level):
             result = {'error': f'⚠️ 你只能挑戰第 1 到第 {unlocked_level} 關'}
+            if session.get('team') == '1' and level == 1:
+                send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗')
             return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=level)
 
         try:
-            pattern = re.compile(f"{regex}")
+            pattern = re.compile(f"`{regex}`")
         except re.error as e:
             result = {'error': f'無效的正則表達式：{e}'}
+            if session.get('team') == '1' and level == 1:
+                send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗')
             return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=level)
 
         def load_lines(path):
@@ -95,3 +116,9 @@ def describe(level):
 def reset():
     session['unlocked_level'] = 1
     return redirect(url_for('index'))
+
+@app.route("/devtools_opened", methods=["POST"])
+def devtools_opened():
+    if session.get("team") == "1":
+        send_telegram_message(f'小隊{session["team"]} - 已開啟開發者工具')
+    return "", 204
