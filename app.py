@@ -3,7 +3,6 @@ from flask import flash
 import os
 import re
 import base64
-
 import requests
 from dotenv import load_dotenv
 
