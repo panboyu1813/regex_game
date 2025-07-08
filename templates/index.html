@@ -144,7 +144,7 @@
         }
     
         // 如果不是在輸入框中，禁止 Ctrl/Alt/Shift + A/C/X/V
-        if ((unlocked_level!=0||!isInput) && (e.ctrlKey || e.altKey || e.shiftKey)) {
+        if (!isInput && (e.ctrlKey || e.altKey || e.shiftKey)) {
             const forbiddenKeys = ['a', 'c', 'x', 'v'];
             if (forbiddenKeys.includes(e.key.toLowerCase())) {
                 e.preventDefault();
