@@ -31,6 +31,7 @@ def select_team():
     if request.method == 'POST':
         team = request.form.get('team')
         if team in [str(i) for i in range(1, 10)]:
+            session.clear()
             session['team'] = team
             session['unlocked_level'] = 0
             send_telegram_message(f"第{team}小隊 - 已開始遊戲")
