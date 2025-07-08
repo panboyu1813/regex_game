@@ -6,7 +6,7 @@ RUN sed -i 's/security.debian.org/mirror.twds.com.tw/g' /etc/apt/sources.list.d/
 
 # 更新 pip 並只安裝 flask（不裝 pycryptodome 或 chromium）
 RUN pip3 install --upgrade pip
-RUN pip3 install flask
+RUN pip3 install flask flask requests python-dotenv
 
 # 工作目錄與檔案
 WORKDIR /app
