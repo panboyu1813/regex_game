@@ -4,7 +4,9 @@ import re
 import base64
 import requests
 from dotenv import load_dotenv
+from datetime import timedelta
 
+app.permanent_session_lifetime = timedelta(hours=1)
 load_dotenv()
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
@@ -32,6 +34,7 @@ def select_team():
         team = request.form.get('team')
         if team in [str(i) for i in range(1, 10)]:
             session.clear()
+            session.permanent = True
             session['team'] = team
             session['unlocked_level'] = 0
             send_telegram_message(f"第{team}小隊 - 已開始遊戲")
