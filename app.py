@@ -117,8 +117,7 @@ def describe(level):
 
 @app.route('/reset')
 def reset():
-    session['unlocked_level'] = 1
-    session['team'] = ""
+    session.clear()
     return redirect(url_for('index'))
 
 @app.route("/devtools_opened", methods=["POST"])
