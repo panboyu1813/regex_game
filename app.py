@@ -1,36 +1,30 @@
-from flask import Flask, request, render_template, jsonify, session, redirect, url_for
-from flask import flash
+from flask import Flask, request, render_template, jsonify, session, redirect, url_for, flash
 import os
 import re
 import base64
 import requests
 from dotenv import load_dotenv
 
+load_dotenv()
+
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
-
 def send_telegram_message(message):
-    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage?chat_id={TELEGRAM_CHAT_ID}&text={message}"
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     data = {
         "chat_id": TELEGRAM_CHAT_ID,
-        "text": message
+        "text": message,
+        "parse_mode": "Markdown"
     }
     try:
-        response = requests.post(url)
+        response = requests.post(url, data=data)
         print("[Telegram Response]", response.status_code, response.text)
     except Exception as e:
         print("[Telegram Error]", e)
-    
-    except Exception as e:
-        print(f"Telegram error: {e}")
-
-
-load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = 'super-secret-key'
-
 
 @app.route('/select_team', methods=['GET', 'POST'])
 def select_team():
@@ -39,7 +33,7 @@ def select_team():
         if team in [str(i) for i in range(1, 10)]:
             session['team'] = team
             session['unlocked_level'] = 1
-            send_telegram_message(f"第{team}小隊-已開始遊戲")
+            send_telegram_message(f"第{team}小隊 - 已開始遊戲")
             return redirect(url_for('index'))
         else:
             flash('請選擇有效的小隊')
@@ -70,7 +64,7 @@ def index():
             pattern = re.compile(regex.encode('utf-8').decode('unicode_escape'))
         except re.error as e:
             result = {'error': f'無效的正則表達式：{e}'}
-            send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗{e}')
+            send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗（regex 錯誤）')
             return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=level)
 
         def load_lines(path):
@@ -82,17 +76,17 @@ def index():
 
         for line in accept_lines:
             if not pattern.fullmatch(line):
+                send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗（accept: `{line}`）')
                 return render_template('index.html', result={
                     'error': f'❌ Failed accept testcase（該匹配卻沒匹配到）: {line}'
                 }, unlocked_level=unlocked_level, selected_level=level)
-                # send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗')
 
         for line in reject_lines:
             if pattern.fullmatch(line):
+                send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗（reject: `{line}`）')
                 return render_template('index.html', result={
                     'error': f'❌ Failed reject testcase（不該匹配卻匹配到）: {line}'
                 }, unlocked_level=unlocked_level, selected_level=level)
-                # send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗')
 
         if level == unlocked_level and level < 10:
             send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 成功')
@@ -100,13 +94,11 @@ def index():
             unlocked_level = session['unlocked_level']
         if level == 10:
             send_telegram_message(f'小隊{session["team"]} - 已完成挑戰')
-            
-        keyword = None
-        
+
         result = {
             'success': True,
             'level': level,
-            'keyword': keyword
+            'keyword': None
         }
         current_level = level + 1 if level + 1 <= unlocked_level else level
 
