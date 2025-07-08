@@ -5,9 +5,11 @@ import re
 import base64
 
 import requests
+from dotenv import load_dotenv
 
-TELEGRAM_BOT_TOKEN = "8116903199:AAGk35ICAnk1fpHuBiaTNsoHzvvI7W4sc90"
-TELEGRAM_CHAT_ID = "-1002686738345"
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+
 
 def send_telegram_message(message):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
@@ -16,10 +18,16 @@ def send_telegram_message(message):
         "text": message
     }
     try:
-        requests.post(url, data=data)
+        response = requests.post(url, data=data)
+        print("[Telegram Response]", response.status_code, response.text)
+    except Exception as e:
+        print("[Telegram Error]", e)
+    
     except Exception as e:
         print(f"Telegram error: {e}")
 
+
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = 'super-secret-key'
