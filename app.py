@@ -40,6 +40,7 @@ def select_team():
         if team in [str(i) for i in range(1, 10)]:
             session['team'] = team
             session['unlocked_level'] = 1
+            send_telegram_message(f"第{team}小隊-開始遊戲")
             return redirect(url_for('index'))
         else:
             flash('請選擇有效的小隊')
