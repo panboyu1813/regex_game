@@ -40,7 +40,7 @@ def select_team():
         if team in [str(i) for i in range(1, 10)]:
             session['team'] = team
             session['unlocked_level'] = 1
-            send_telegram_message(f"第{team}小隊-開始遊戲")
+            send_telegram_message(f"第{team}小隊-已開始遊戲")
             return redirect(url_for('index'))
         else:
             flash('請選擇有效的小隊')
@@ -99,6 +99,8 @@ def index():
             send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 成功')
             session['unlocked_level'] += 1
             unlocked_level = session['unlocked_level']
+        if level == 10:
+            send_telegram_message(f'小隊{session["team"]} - 已完成挑戰')
             
         keyword = None
         
@@ -125,10 +127,10 @@ def describe(level):
 @app.route('/reset')
 def reset():
     session['unlocked_level'] = 1
+    session['team'] = ""
     return redirect(url_for('index'))
 
 @app.route("/devtools_opened", methods=["POST"])
 def devtools_opened():
-    if session.get("team") == "1":
-        send_telegram_message(f'小隊{session["team"]} - 已開啟開發者工具')
+    send_telegram_message(f'小隊{session["team"]} - 已開啟開發者工具')
     return "", 204
