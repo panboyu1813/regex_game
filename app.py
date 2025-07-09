@@ -91,7 +91,7 @@ def index():
                 return render_template('index.html', result={
                     'error': f'❌ Failed reject testcase（不該匹配卻匹配到）: {line}'
                 }, unlocked_level=unlocked_level, selected_level=level, prev_regex=regex)
-        if level == 10:
+        #if level == 10:
             #send_telegram_message(f'小隊{session["team"]} - 已完成挑戰')
         if level == unlocked_level and level < 10:
             #send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 成功')
