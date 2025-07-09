@@ -109,30 +109,6 @@
     </style>
 </head>
     <script>
-        (function() {
-            const threshold = 160; // DevTools 打開時會減少這個值
-            let devtoolsOpen = false;
-    
-            const checkDevTools = () => {
-                const widthThreshold = window.outerWidth - window.innerWidth > threshold;
-                const heightThreshold = window.outerHeight - window.innerHeight > threshold;
-    
-                if (widthThreshold || heightThreshold) {
-                    if (!devtoolsOpen) {
-                        devtoolsOpen = true;
-                        alert("已偵測到開發者工具開啟，請關閉後繼續使用。");
-                        location.href = "about:blank"; // 或導回首頁 / 鎖住操作
-                    }
-                } else {
-                    devtoolsOpen = false;
-                }
-            };
-    
-            setInterval(checkDevTools, 1000); // 每秒檢查一次
-        })();
-    </script>
-
-    <script>
     document.addEventListener('keydown', function (e) {
         const target = e.target;
         const isInput = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA';
