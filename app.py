@@ -65,7 +65,7 @@ def index():
             return render_template('index.html', result=result, unlocked_level=unlocked_level, selected_level=level, prev_regex="")
 
         try:
-            pattern = re.compile(regex.encode('utf-8').decode('unicode_escape'))
+            pattern = re.compile(regex)
         except re.error as e:
             result = {'error': f'無效的正則表達式：{e}'}
             send_telegram_message(f'小隊{session["team"]} - 已嘗試第{level}關 `{regex}` - 失敗（regex 錯誤）')
