@@ -4,7 +4,7 @@ FROM python:3.11-slim
 ENV AUTO_UPDATE=0 \
     USE_UV=0 \
     ROOT_DIR="" \
-    PY_FILE=main.py \
+    PY_FILE="-m flask run --port 30003 --host 0.0.0.0" \
     REQUIREMENTS_FILE=requirements.txt \
     PY_PACKAGES=""
 
@@ -12,7 +12,7 @@ ENV AUTO_UPDATE=0 \
 RUN apt-get update && apt-get install -y curl git && rm -rf /var/lib/apt/lists/*
 
 # 建立工作目錄
-WORKDIR /home/container
+WORKDIR ./
 
 # 複製所有檔案進容器
 COPY . .
