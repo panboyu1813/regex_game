@@ -1,25 +1,56 @@
-FROM python:3.9
+FROM python:3.11-slim
 
-# 換台灣鏡像源加快速度（可選）
-RUN sed -i 's/deb.debian.org/mirror.twds.com.tw/g' /etc/apt/sources.list.d/debian.sources || true
-RUN sed -i 's/security.debian.org/mirror.twds.com.tw/g' /etc/apt/sources.list.d/debian.sources || true
+# 環境變數（可根據需求在 docker run 時透過 -e 傳入或寫死在這裡）
+ENV AUTO_UPDATE=0 \
+    USE_UV=0 \
+    ROOT_DIR="" \
+    PY_FILE=main.py \
+    REQUIREMENTS_FILE=requirements.txt \
+    PY_PACKAGES=""
 
-# 更新 pip 並只安裝 flask（不裝 pycryptodome 或 chromium）
-RUN pip3 install --upgrade pip
-RUN pip3 install -r requirements.txt
+# 安裝必要工具
+RUN apt-get update && apt-get install -y curl git && rm -rf /var/lib/apt/lists/*
 
-# 工作目錄與檔案
-WORKDIR /app
-COPY . /app
-RUN rm /app/Dockerfile
+# 建立工作目錄
+WORKDIR /home/container
 
-# 設定環境變數讓 flask run 可執行
-ENV FLASK_APP=app.py
-ENV FLASK_RUN_PORT=5000
+# 複製所有檔案進容器
+COPY . .
 
-# 開放 port
-EXPOSE 5000
+# 如果有 .git 且 AUTO_UPDATE = 1 就執行 git pull
+RUN if [ -d .git ] && [ "$AUTO_UPDATE" = "1" ]; then git pull; fi
 
-# 執行 flask
-ENTRYPOINT [ "flask" ]
-CMD ["run", "--host=0.0.0.0"]
+# 切換目錄
+WORKDIR /home/container/${ROOT_DIR}
+
+# 安裝 uv（如果有指定 USE_UV=1）
+RUN if [ "$USE_UV" = "1" ]; then \
+        if ! command -v uv > /dev/null && [ ! -f /root/.local/bin/uv ]; then \
+            echo "Installing uv..." && \
+            curl -LsSf https://astral.sh/uv/install.sh | sh; \
+        fi; \
+    fi
+
+# 安裝 Python 套件（用 uv 或 pip）
+RUN if [ "$USE_UV" = "1" ]; then \
+        UV_CMD="/root/.local/bin/uv"; \
+        if [ ! -z "$PY_PACKAGES" ]; then $UV_CMD pip install $PY_PACKAGES; fi; \
+        if [ -f "${REQUIREMENTS_FILE}" ]; then $UV_CMD pip install -r ${REQUIREMENTS_FILE}; fi; \
+    else \
+        if [ ! -z "$PY_PACKAGES" ]; then pip install -U $PY_PACKAGES; fi; \
+        if [ -f "${REQUIREMENTS_FILE}" ]; then pip install -U -r ${REQUIREMENTS_FILE}; fi; \
+    fi
+
+# 預設執行指令（根據 USE_UV）
+CMD if [ "$USE_UV" = "1" ]; then \
+        UV_CMD="/root/.local/bin/uv"; \
+        if [ -f "pyproject.toml" ]; then \
+            exec $UV_CMD run ${PY_FILE}; \
+        else \
+            $UV_CMD pip install --system $PY_PACKAGES 2>/dev/null; \
+            $UV_CMD pip install --system -r ${REQUIREMENTS_FILE} 2>/dev/null; \
+            exec python ${PY_FILE}; \
+        fi; \
+    else \
+        exec python ${PY_FILE}; \
+    fi
