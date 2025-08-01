@@ -5,6 +5,7 @@ ENV AUTO_UPDATE=0 \
     USE_UV=0 \
     ROOT_DIR="" \
     PY_FILE="-m flask run --port 30003 --host 0.0.0.0" \
+    FLASK_APP=app.py \
     REQUIREMENTS_FILE=requirements.txt \
     PY_PACKAGES="flask requests python-dotenv"
 
@@ -45,12 +46,13 @@ RUN if [ "$USE_UV" = "1" ]; then \
 CMD if [ "$USE_UV" = "1" ]; then \
         UV_CMD="/root/.local/bin/uv"; \
         if [ -f "pyproject.toml" ]; then \
-            exec $UV_CMD run ${PY_FILE}; \
+            exec $UV_CMD run -m flask run --host=0.0.0.0 --port=30003; \
         else \
             $UV_CMD pip install --system $PY_PACKAGES 2>/dev/null; \
             $UV_CMD pip install --system -r ${REQUIREMENTS_FILE} 2>/dev/null; \
-            exec python ${PY_FILE}; \
+            exec python -m flask run --host=0.0.0.0 --port=30003; \
         fi; \
     else \
-        exec python ${PY_FILE}; \
+        exec python -m flask run --host=0.0.0.0 --port=30003; \
     fi
+
