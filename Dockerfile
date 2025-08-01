@@ -6,7 +6,7 @@ ENV AUTO_UPDATE=0 \
     ROOT_DIR="" \
     PY_FILE="-m flask run --port 30003 --host 0.0.0.0" \
     REQUIREMENTS_FILE=requirements.txt \
-    PY_PACKAGES=""
+    PY_PACKAGES="flask requests python-dotenv"
 
 # 安裝必要工具
 RUN apt-get update && apt-get install -y curl git && rm -rf /var/lib/apt/lists/*
